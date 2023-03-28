@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 import javax.swing.JTextArea;
 
+import src.Sorter.BubbleSorter;
+import src.Sorter.Sorter;
+
 public class FileReader {
     int fileId = 1; // to make separate files of each request to save data
     String overwriteFiles = ""; // asked of user if duplicates encountered
@@ -57,20 +60,7 @@ public class FileReader {
         return (!fileOpenError);
     } // openTheFile
 
-    // write display area to consecutively named files
-    // private void writeTextFile(JTextArea display, String fileName) {
-    // try {
-    // outStream = new FileWriter (fileName);
-    // outStream.write (display.getText());
-    // outStream.close();
-    // } catch (IOException e) {
-    // display.setText("IOERROR: " + e.getMessage() + "\n");
-    // e.printStackTrace();
-    // } // catch
-    // } // writeTextFile()
-
     // writes a detail line if flag set to do this vs. displaying
-
     public void writeDetail(String detailLine, JTextArea display) {
         try {
             outStream.write(detailLine);
@@ -95,7 +85,8 @@ public class FileReader {
 
         if (statsPointer < statsMax) // sort and write table
         {
-            bubbleSort(statsPointer, statsArray); // first, put them in ascending order by nAnswers
+            Sorter sorter = new BubbleSorter();
+            sorter.sort(statsPointer, statsArray); // first, put them in ascending order by nAnswers
             System.out.println(" writing table ...");
             int k0, k1, k2, k3, k4;
             for (int i = 0; i < statsPointer; i++) {
@@ -117,28 +108,6 @@ public class FileReader {
         }
     }
 
-    // Sort the summary statsArray[][] results table in full set of combos routine
-    public void bubbleSort(int statsPointer, int statsArray[][]) {
-        System.out.println(" Sorting table...");
-        int temp0, temp1, temp2;
-        for (int pass = 1; pass < statsPointer; pass++)
-            for (int pair = 1; pair < statsPointer; pair++)
-                if ((statsArray[pair - 1][1] - statsArray[pair - 1][2]) > (statsArray[pair][1] - statsArray[pair][2])) // compare
-                                                                                                                       // the
-                                                                                                                       // non-duplicated
-                                                                                                                       // answers
-                {
-                    temp0 = statsArray[pair - 1][0];
-                    temp1 = statsArray[pair - 1][1];
-                    temp2 = statsArray[pair - 1][2];
-                    statsArray[pair - 1][0] = statsArray[pair][0];
-                    statsArray[pair - 1][1] = statsArray[pair][1];
-                    statsArray[pair - 1][2] = statsArray[pair][2];
-                    statsArray[pair][0] = temp0;
-                    statsArray[pair][1] = temp1;
-                    statsArray[pair][2] = temp2;
-                } // if
-        System.out.println(" Done sorting table...");
-    } // bubbleSort()
+
 
 }
