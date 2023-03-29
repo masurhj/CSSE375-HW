@@ -1,20 +1,18 @@
-package src;
-
+package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+
 
 import javax.swing.JTextArea;
 
-import src.Sorter.BubbleSorter;
-import src.Sorter.Sorter;
+import main.Sorter.BubbleSorter;
+import main.Sorter.Sorter;
 
-public class FileReader {
-    int fileId = 1; // to make separate files of each request to save data
-    String overwriteFiles = ""; // asked of user if duplicates encountered
-    FileWriter outStream; // to write calcs, etc.
+public class FileManager {
+    private int fileId = 1; // to make separate files of each request to save data
+    private FileWriter outStream; // to write calcs, etc.
 
     public boolean openTheFile(String inputValue, int maxNumber, JTextArea display) {
         boolean fileOpenError = false;
@@ -31,18 +29,8 @@ public class FileReader {
             fileName = "datafiles/stdOps" + inputValue + "&" + maxNumberValue + "gameResults" + String.valueOf(fileId)
                     + ".txt";
         File tmpDir = new File(fileName);
-        if (tmpDir.exists() && (!overwriteFiles.equals("a"))) { // Ask if they want to write over this
-            Scanner scanner1 = new Scanner(System.in);
-            System.out.println("A file with name '" + fileName + "' already exists!");
-            System.out.print("Overwrite this file? (y or n, or a to overwrite all) ");
-            String inputWriteOver = scanner1.nextLine().toLowerCase();
-            if (inputWriteOver.equals("n")) {
-                scanner1.close();
-                return (fileOpenError);
-            }
-            if (inputWriteOver.equals("a"))
-                overwriteFiles = "a";
-            scanner1.close();
+        if (tmpDir.exists()) { // Ask if they want to write over this
+            System.out.println("A file with name '" + fileName + "' already exists! Overwriting!");
         }
         try { // creating the output file in directory called "datafiles" :
             outStream = new FileWriter(fileName);
@@ -59,6 +47,21 @@ public class FileReader {
         } // catch
         return (!fileOpenError);
     } // openTheFile
+
+    public void clearFiles(JTextArea display){
+        System.out.println("Clearing Files! -------------");
+        String fileName = "datafiles";
+        File tmpDir = new File(fileName);
+        if (tmpDir.exists()) {
+            try{
+                for(File f: tmpDir.listFiles()){
+                    f.delete();
+                }
+            } catch (Exception e){
+                System.out.println("ERROR: " + e);
+            }
+        }
+    }
 
     // writes a detail line if flag set to do this vs. displaying
     public void writeDetail(String detailLine, JTextArea display) {

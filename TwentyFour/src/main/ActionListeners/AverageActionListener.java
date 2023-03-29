@@ -1,8 +1,8 @@
-package src.ActionListeners;
+package main.ActionListeners;
 
 import javax.swing.JTextField;
 
-import src.FlagContainer;
+import main.FlagContainer;
 
 public class AverageActionListener extends BasicInputActionListener {
 

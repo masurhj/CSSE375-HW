@@ -1,5 +1,4 @@
-package src;
-
+package main;
 public class FlagContainer {
     public static boolean insolublesFlag; // do or don't do these just on otherwise insoluble problems
     public static boolean extraOpsFlag; // do or don't do sqrt, cubert, mod, etc.

@@ -1,10 +1,10 @@
-package src.ActionListeners;
+package main.ActionListeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
-import src.FlagContainer;
+import main.FlagContainer;
 
 public class BasicInputActionListener implements ActionListener {
     protected JTextField input;

@@ -1,4 +1,4 @@
-package src.Sorter;
+package main.Sorter;
 
 public class BubbleSorter extends Sorter{
     

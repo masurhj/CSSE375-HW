@@ -1,5 +1,4 @@
-package src;
-
+package main;
 /*
  *  File: TwentyFourC.java
  * --> This is Steve's Twenty Four game, fourth version, with more options!
@@ -21,19 +20,20 @@ package src;
 
 import javax.swing.*; // Packages used
 
-import src.ActionListeners.AbsvalActionListener;
-import src.ActionListeners.Average3ActionListener;
-import src.ActionListeners.AverageActionListener;
-import src.ActionListeners.CubertActionListener;
-import src.ActionListeners.DefaultInputActionListener;
-import src.ActionListeners.ExpActionListener;
-import src.ActionListeners.ExtraOpsActionListener;
-import src.ActionListeners.FactorialActionListener;
-import src.ActionListeners.GcdActionListener;
-import src.ActionListeners.InsolublesActionListener;
-import src.ActionListeners.LcmActionListener;
-import src.ActionListeners.ModActionListener;
-import src.ActionListeners.SqrtActionListener;
+import main.ActionListeners.AbsvalActionListener;
+import main.ActionListeners.Average3ActionListener;
+import main.ActionListeners.AverageActionListener;
+import main.ActionListeners.ClearActionListener;
+import main.ActionListeners.CubertActionListener;
+import main.ActionListeners.DefaultInputActionListener;
+import main.ActionListeners.ExpActionListener;
+import main.ActionListeners.ExtraOpsActionListener;
+import main.ActionListeners.FactorialActionListener;
+import main.ActionListeners.GcdActionListener;
+import main.ActionListeners.InsolublesActionListener;
+import main.ActionListeners.LcmActionListener;
+import main.ActionListeners.ModActionListener;
+import main.ActionListeners.SqrtActionListener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -63,7 +63,8 @@ public class TwentyFour extends JFrame{
     private JButton average3 = new JButton(" average 3 ");
     private JButton extraOps = new JButton(" All Extra Ops! ");
     private JButton insolubles = new JButton(" Insolubles Only! ");
-    private FileReader fileReader = new FileReader();
+    private JButton clear = new JButton("Clear all datafiles");
+    private FileManager fileManager = new FileManager();
     // private JButton write = new JButton(" Write display! ");
     // private JButton writeCalcBtn = new JButton(" Write detail! ");
 
@@ -99,6 +100,7 @@ public class TwentyFour extends JFrame{
         controlPanel.add(average3);
         controlPanel.add(extraOps);
         controlPanel.add(insolubles);
+        controlPanel.add(clear);
         // controlPanel.add(write);
         // controlPanel.add(writeCalcBtn);
         controlPanel.add(promptSteve);
@@ -111,8 +113,8 @@ public class TwentyFour extends JFrame{
         display.setText(
                 "This display tracks progress - results are in datafiles directory. Some messages are in console.");
 
-        input.addActionListener(new DefaultInputActionListener(input, inputDigitSize, display, fileReader));
-        calculate.addActionListener(new DefaultInputActionListener(input, inputDigitSize, display, fileReader));
+        input.addActionListener(new DefaultInputActionListener(input, inputDigitSize, display, fileManager));
+        calculate.addActionListener(new DefaultInputActionListener(input, inputDigitSize, display, fileManager));
         mod.addActionListener(new ModActionListener(input, inputDigitSize));
         exp.addActionListener(new ExpActionListener(input, inputDigitSize));
         gcd.addActionListener(new GcdActionListener(input, inputDigitSize));
@@ -125,6 +127,7 @@ public class TwentyFour extends JFrame{
         average3.addActionListener(new Average3ActionListener(input, inputDigitSize));
         extraOps.addActionListener(new ExtraOpsActionListener(input, inputDigitSize));
         insolubles.addActionListener(new InsolublesActionListener(input, inputDigitSize));
+        clear.addActionListener(new ClearActionListener(fileManager, display));
 
     } // TwentyFour()
 

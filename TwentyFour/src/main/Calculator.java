@@ -1,5 +1,4 @@
-package src;
-
+package main;
 import java.io.IOException;
 
 import javax.swing.JTextArea;
@@ -79,12 +78,12 @@ public class Calculator {
 	private int nentries = 0; // how many combinations we look at
 
 	private JTextArea display;
-	private FileReader fileReader;
+	private FileManager fileManager;
 	private int maxNumber;
 
-	public Calculator(JTextArea display, FileReader fileReader, int maxNumber) {
+	public Calculator(JTextArea display, FileManager fileManager, int maxNumber) {
 		this.display = display;
-		this.fileReader = fileReader;
+		this.fileManager = fileManager;
 		this.maxNumber = maxNumber;
 	}
 
@@ -113,7 +112,7 @@ public class Calculator {
 					runnumberset(k1, k2, k3, k4); // find answers for just this combination of numbers
 					display.append("------- A total of " + nAnswers + " answers with " + nduplicates
 							+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n");
-					fileReader.writeDetail("------- A total of " + nAnswers + " answers with " + nduplicates
+					fileManager.writeDetail("------- A total of " + nAnswers + " answers with " + nduplicates
 							+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n", display);
 				} // else ok to do
 			} // if (inputValueN > 1000)
@@ -137,7 +136,7 @@ public class Calculator {
 								runnumberset(k1, k2, k3, k4); // do this set of numbers
 								display.append("------- A total of " + nAnswers + " answers with " + nduplicates
 										+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n");
-								fileReader.writeDetail(
+								fileManager.writeDetail(
 										"------- A total of " + nAnswers + " answers with " + nduplicates
 												+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n",
 										display);
@@ -162,10 +161,10 @@ public class Calculator {
 				display.append("Grand total number of answers is " + total + "\n for " + nentries
 						+ " combinations with " + totduplicates + " duplicates removed giving "
 						+ (total - totduplicates) + " answers in file. \n");
-				fileReader.writeDetail("Grand total number of answers is " + total + "\n for " + nentries
+				fileManager.writeDetail("Grand total number of answers is " + total + "\n for " + nentries
 						+ " combinations with " + totduplicates + " duplicates removed giving "
 						+ (total - totduplicates) + " answers in file. \n", display);
-				fileReader.writeSummary(display, statsPointer, statsMax, statsArray); // first gen statistical summary
+				fileManager.writeSummary(display, statsPointer, statsMax, statsArray); // first gen statistical summary
 																						// of combos we tried
 				if ((FlagContainer.insolublesFlag) && (statsPointer < statsMax)) // do equally long routine to solve
 																					// just those combinations using
@@ -173,7 +172,7 @@ public class Calculator {
 				{
 					System.out.println("... Now working on insolubles, which usually takes quite a bit longer! ...");
 					display.append("\n------- Now looking at insoluble problems from first run: ---------\n");
-					fileReader.writeDetail("\n------- Now looking at insoluble problems from first run: ---------\n",
+					fileManager.writeDetail("\n------- Now looking at insoluble problems from first run: ---------\n",
 							display);
 					total = 0; // start statistics again -- how many answers altogether
 					nentries = 0; // for how many problems
@@ -207,12 +206,12 @@ public class Calculator {
 														// time!
 							{
 								for (int i = 0; i < j; i++)
-									fileReader.writeDetail(insolTable[i], display);
+									fileManager.writeDetail(insolTable[i], display);
 							}
 							display.append("------- Now a total of " + nAnswers + " answers with " + nduplicates
 									+ " duplicates removed = " + (nAnswers - nduplicates) + ", only "
 									+ (insolublesDoMax + j) + " shown.\n");
-							fileReader.writeDetail("------- Now a total of " + nAnswers + " answers with " + nduplicates
+							fileManager.writeDetail("------- Now a total of " + nAnswers + " answers with " + nduplicates
 									+ " duplicates removed = " + (nAnswers - nduplicates) + ", only "
 									+ (insolublesDoMax + j) + " shown.\n", display);
 						} // else we showed all of them
@@ -220,7 +219,7 @@ public class Calculator {
 						{
 							display.append("------- Now a total of " + nAnswers + " answers with " + nduplicates
 									+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n");
-							fileReader.writeDetail(
+							fileManager.writeDetail(
 									"------- Now a total of " + nAnswers + " answers with " + nduplicates
 											+ " duplicates removed = " + (nAnswers - nduplicates) + " shown.\n",
 									display);
@@ -236,7 +235,7 @@ public class Calculator {
 						statsPointer++;
 					} // while (statsArray[ ...
 
-					fileReader.writeSummary(display, statsPointer, statsMax, statsArray); // first gen statistical
+					fileManager.writeSummary(display, statsPointer, statsMax, statsArray); // first gen statistical
 																							// summary of combos we
 																							// tried
 
@@ -250,7 +249,7 @@ public class Calculator {
 
 			try {
 				System.out.println("closing the file! -------------");
-				fileReader.getOutStream().close();
+				fileManager.getOutStream().close();
 			} catch (IOException e1) {
 				display.setText("IOERROR on file close: " + e1.getMessage() + "\n");
 				e1.printStackTrace();
@@ -285,7 +284,7 @@ public class Calculator {
 		}
 		display.append(
 				"Given values of " + k1 + " " + k2 + " " + k3 + " " + k4 + "--> magic no. " + inputValueN + " :\n");
-		fileReader.writeDetail(
+		fileManager.writeDetail(
 				"\nGiven values of " + k1 + " " + k2 + " " + k3 + " " + k4 + "--> magic no. " + inputValueN + " :\n\n",
 				display);
 		if (FlagContainer.debugFlag == 2) // print what's supposed to be displaying, too
@@ -718,7 +717,7 @@ public class Calculator {
 																											// routine
 											{
 												if (nAnswers - nduplicates <= insolublesDoMax) // only do so many!
-													fileReader.writeDetail("+>  " + answerString + "\n", display); // write
+													fileManager.writeDetail("+>  " + answerString + "\n", display); // write
 																													// the
 																													// answer
 																													// to
@@ -735,7 +734,7 @@ public class Calculator {
 												} // else save in overflow
 											} // if (insolublesFlag ...
 											else // normal routine -- always write the answer
-												fileReader.writeDetail(">  " + answerString + "\n", display); // write
+												fileManager.writeDetail(">  " + answerString + "\n", display); // write
 																												// the
 																												// answer
 																												// to
@@ -1036,7 +1035,7 @@ public class Calculator {
 																												// routine
 												{
 													if (nAnswers - nduplicates <= insolublesDoMax) // only do so many!
-														fileReader.writeDetail("+>  " + answerString + "\n", display); // write
+														fileManager.writeDetail("+>  " + answerString + "\n", display); // write
 																														// the
 																														// answer
 																														// to
@@ -1055,7 +1054,7 @@ public class Calculator {
 
 												} // if (insolublesFlag...
 												else // normal routine -- always write the answer
-													fileReader.writeDetail(">  " + answerString + "\n", display); // write
+													fileManager.writeDetail(">  " + answerString + "\n", display); // write
 																													// the
 																													// answer
 																													// to
