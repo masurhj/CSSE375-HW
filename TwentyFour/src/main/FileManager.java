@@ -17,7 +17,7 @@ public class FileManager {
     public boolean openTheFile(String inputValue, int maxNumber, JTextArea display) {
         boolean fileOpenError = false;
         System.out.println("Opening next file! -------------");
-        String fileName;
+        String fileName = "datafiles";
         String maxNumberValue = String.valueOf(maxNumber);
         if (FlagContainer.insolublesFlag)
             fileName = "datafiles/insolubles" + inputValue + "&" + maxNumberValue + "gameResults"
@@ -33,6 +33,7 @@ public class FileManager {
             System.out.println("A file with name '" + fileName + "' already exists! Overwriting!");
         }
         try { // creating the output file in directory called "datafiles" :
+            System.out.println(fileName);
             outStream = new FileWriter(fileName);
             fileId = fileId + 1; // to enable successive tests in one run
         } catch (FileNotFoundException e1) {
@@ -61,6 +62,15 @@ public class FileManager {
                 System.out.println("ERROR: " + e);
             }
         }
+    }
+
+    public int getFileCount(){
+        String fileName = "datafiles";
+        File tmpDir = new File(fileName);
+        if (tmpDir.exists()) {
+            return tmpDir.listFiles().length;
+        }
+        return 0;
     }
 
     // writes a detail line if flag set to do this vs. displaying
